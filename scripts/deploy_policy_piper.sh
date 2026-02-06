@@ -3,16 +3,21 @@
 #   bash scripts/deploy_policy.sh idp3 gr1_dex-3d 0913_example
 #   bash scripts/deploy_policy.sh dp_224x224_r3m gr1_dex-image 0913_example
 
-dataset_path=/home/mihawk/Improved-3D-Diffusion-Policy/imitation_data_example1
+dataset_path=/home/mihawk/Improved-3D-Diffusion-Policy/imitation_data4
 
 
-DEBUG=False
 save_ckpt=True
 
-alg_name=${1}
-task_name=${2}
+DEFAULT_ALG_NAME="idp3"
+DEFAULT_TASK_NAME="piper"
+DEFAULT_ADDITION_INFO="default7.2"
+DEBUG=False
+wandb_mode=offline
+
+alg_name=${1:-$DEFAULT_ALG_NAME}     
+task_name=${2:-$DEFAULT_TASK_NAME}
+addition_info=${3:-$DEFAULT_ADDITION_INFO}
 config_name=${alg_name}
-addition_info=${3}
 seed=0
 exp_name=${task_name}-${alg_name}-${addition_info}
 run_dir="data/outputs/${exp_name}_seed${seed}"

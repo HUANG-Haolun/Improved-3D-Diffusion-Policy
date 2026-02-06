@@ -14,3 +14,8 @@ deploy_vis_dir/
 ablation_data/
 
 training_data_example/
+
+.cache/
+hhl*
+*example*
+*data*/

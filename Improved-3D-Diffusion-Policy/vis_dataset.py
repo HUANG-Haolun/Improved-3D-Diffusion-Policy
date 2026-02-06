@@ -32,23 +32,31 @@ if use_img:
     all_img = zf['data/img']
 all_point_cloud = zf['data/point_cloud']
 all_episode_ends = zf['meta/episode_ends']
+all_states = zf['data/state']
+all_actions = zf['data/action']
 
 
     
 # devide episodes by episode_ends
 for episode_idx, episode_end in enumerate(all_episode_ends):
+    # print(f"Processing episode {episode_idx} / {len(all_episode_ends)}")
     if episode_idx == 0:
         if use_img:
             img_episode = all_img[:episode_end]
         
         point_cloud_episode = all_point_cloud[:episode_end]
+        state_episode = all_states[:episode_end]
+        action_episode = all_states[:episode_end]
     else:
         if use_img:
             img_episode = all_img[all_episode_ends[episode_idx-1]:episode_end]
         point_cloud_episode = all_point_cloud[all_episode_ends[episode_idx-1]:episode_end]
+        state_episode = all_states[all_episode_ends[episode_idx-1]:episode_end]
+        action_episode = all_states[all_episode_ends[episode_idx-1]:episode_end]
 
     # print(img_episode.shape)
     # print(point_cloud_episode.shape)
+    # print(state_episode)
     
     save_dir = f"visualizations/{dataset_path}/{episode_idx}"
     if vis_cloud:
@@ -58,7 +66,7 @@ for episode_idx, episode_end in enumerate(all_episode_ends):
     for i in range(point_cloud_episode.shape[0]):
         
         pc = point_cloud_episode[i]
-
+        
         # downsample
         if downsample:
             num_points = 4096
@@ -67,6 +75,8 @@ for episode_idx, episode_end in enumerate(all_episode_ends):
 
         if use_img:
             img = img_episode[i]
+            print("states:",state_episode[i])
+            print("actions:",action_episode[i])
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             cv2.imshow('img', img)
             cv2.waitKey(1)
@@ -80,6 +90,7 @@ for episode_idx, episode_end in enumerate(all_episode_ends):
             print(f"vis cloud saved to {save_dir}/{i}.png")
 
         print(f"frame {i}/{point_cloud_episode.shape[0]}")
+        # print(f"state: {state_episode[i]}")
 
         # if i == 200:
         #     break

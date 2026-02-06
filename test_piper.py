@@ -1,0 +1,3 @@
+# Set the robot arm as a slave arm
+from piper_sdk import *
+C_PiperInterface(can_name='can0', judge_flag=True).MasterSlaveConfig(0xFC, 0, 0, 0)

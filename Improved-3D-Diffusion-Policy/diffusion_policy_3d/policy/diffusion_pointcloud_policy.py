@@ -314,9 +314,14 @@ class DiffusionPointcloudPolicy(BasePolicy):
 
     def compute_loss(self, batch):
         # normalize input
+        
         assert 'valid_mask' not in batch
         nobs = self.normalizer.normalize(batch['obs'])
+        npos = self.normalizer['agent_pos'].normalize(batch['obs']['agent_pos'])
         nactions = self.normalizer['action'].normalize(batch['action'])
+
+
+
 
         if not self.use_pc_color:
             nobs['point_cloud'] = nobs['point_cloud'][..., :3]

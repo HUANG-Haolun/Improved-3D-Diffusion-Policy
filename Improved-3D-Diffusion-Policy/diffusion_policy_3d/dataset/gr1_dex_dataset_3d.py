@@ -74,6 +74,7 @@ class GR1DexDataset3D(BaseDataset):
 
     def get_normalizer(self, mode='limits', **kwargs):
         data = {'action': self.replay_buffer['action']}
+        # data = {'action': self.replay_buffer['action'],'agent_pos': self.replay_buffer['state']}
         normalizer = LinearNormalizer()
         normalizer.fit(data=data, last_n_dims=1, mode=mode, **kwargs)
 
